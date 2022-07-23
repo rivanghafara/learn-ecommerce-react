@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import { Container } from "@mui/material";
+
+import { CartProvider } from "./context/CartContext";
+import Mainpage from "./pages/Mainpage";
+import CartPage from "./pages/CartPage";
+import SingleProductPage from "./pages/SingleProductPage";
+
+import Navigation from "./components/Navigation";
+import Sidebar from "./components/Sidebar";
+import { SidebarProvider } from "./context/SidebarContext";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CartProvider>
+        <SidebarProvider>
+          <Navigation />
+          <Container>
+            <Routes>
+              <Route path="*" element={<Mainpage />} />
+              <Route
+                path="/product/:productId"
+                element={<SingleProductPage />}
+              />
+              <Route path="/cart" element={<CartPage />} />
+            </Routes>
+          </Container>
+          <Sidebar />
+        </SidebarProvider>
+      </CartProvider>
     </div>
   );
 }
